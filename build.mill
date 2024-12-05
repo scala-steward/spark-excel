@@ -122,7 +122,7 @@ trait SparkModule extends Cross.Module2[String, String] with SbtModule with Sona
     }
   }
 
-  object test extends SbtModuleTests with TestModule.ScalaTest {
+  object test extends SbtTests with TestModule.ScalaTest {
 
     override def millSourcePath = super.millSourcePath
 
