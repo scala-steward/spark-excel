@@ -2,9 +2,8 @@
 
 A library for querying Excel files with Apache Spark, for Spark SQL and DataFrames.
 
-[![Build Status](https://github.dev/mauch/spark-excel/workflows/CI/badge.svg)](https://github.dev/mauch/spark-excel/actions)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/dev.mauch/spark-excel_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/dev.mauch/spark-excel_2.12)
-
+[![Build Status](https://github.com/nightscape/spark-excel/actions/workflows/ci.yml/badge.svg)](https://github.com/nightscape/spark-excel/actions/workflows/ci.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/dev.mauch/spark-excel_2.13.svg)](https://search.maven.org/artifact/dev.mauch/spark-excel_2.13)
 
 ## Co-maintainers wanted
 Due to personal and professional constraints, the development of this library has been rather slow.
@@ -251,4 +250,3 @@ We are grateful for their support in the initial development and open-sourcing o
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=nightscape/spark-excel&type=Date)](https://star-history.com/#nightscape/spark-excel&Date)
-
