@@ -2,6 +2,30 @@ Next
 ====
 
 
+## [v0.30.1] - 2025-02-26
+### :wrench: Chores
+- [`2de4598`](https://github.com/nightscape/spark-excel/commit/2de4598eac5767ddf423066849dd8a41dac6bd96) - Update spark-core, spark-hive, spark-sql from 3.5.3 to 3.5.4 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`89ee868`](https://github.com/nightscape/spark-excel/commit/89ee868d4e98794d0ed3c1c1e580d1ca3d7ec0de) - Update log4j-api, log4j-core from 2.24.1 to 2.24.3 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`97efb32`](https://github.com/nightscape/spark-excel/commit/97efb32d3e5126fdb2de2227d5d6fcc418665da7) - Update commons-io from 2.17.0 to 2.18.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`22df678`](https://github.com/nightscape/spark-excel/commit/22df678ebd08d1e72e5582421f23f654a090e509) - Update mill-main from 0.12.4 to 0.12.5 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`8506b1b`](https://github.com/nightscape/spark-excel/commit/8506b1be92f6d4fe849c91b02fbc561c106a1256) - Update xmlbeans from 5.2.1 to 5.2.2 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`9d14cc7`](https://github.com/nightscape/spark-excel/commit/9d14cc7eb10c1090c202e3398676578d04e4cead) - Update xmlbeans from 5.2.2 to 5.3.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`222c39b`](https://github.com/nightscape/spark-excel/commit/222c39b0ee0f62fb8b25daaf9705a3443d900e5c) - Update commons-codec from 1.17.1 to 1.17.2 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`d0891e2`](https://github.com/nightscape/spark-excel/commit/d0891e2a5715848b698d6f8d2a0548d7e30a8e91) - Update poi, poi-ooxml, poi-ooxml-lite from 5.3.0 to 5.4.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`349d6c8`](https://github.com/nightscape/spark-excel/commit/349d6c8cd0ec222f70a8e5d3f63ec01cc43d529a) - Update scalafmt-core from 3.8.3 to 3.8.5 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`83fad94`](https://github.com/nightscape/spark-excel/commit/83fad943edf27cfb53fc7d74f0b39b0effa29469) - Update scala-library from 2.13.15 to 2.13.16 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`d8d3bcb`](https://github.com/nightscape/spark-excel/commit/d8d3bcbae58b7c4f7b82384d34feb98e91ef3ae0) - Update excel-streaming-reader from 5.0.2 to 5.0.3 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`9ef8e8f`](https://github.com/nightscape/spark-excel/commit/9ef8e8f8e2093662affe61de008b396566c0f918) - Update cats-core from 2.12.0 to 2.13.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`bd7a087`](https://github.com/nightscape/spark-excel/commit/bd7a0871fd95b938e6f78e7ad9fde5366ffdfd54) - Update scalafmt-core from 3.8.5 to 3.8.6 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`ffbbed4`](https://github.com/nightscape/spark-excel/commit/ffbbed4f3c0bddea75bdacbe45efdf7616e5894f) - Update scala-collection-compat from 2.12.0 to 2.13.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`25ed3ce`](https://github.com/nightscape/spark-excel/commit/25ed3ce3d461d2836971f84b13d2b76e8b1aa1ba) - Update commons-codec from 1.17.2 to 1.18.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`683547a`](https://github.com/nightscape/spark-excel/commit/683547ad7b831bb5894d7319ec9bd6851827a3f7) - Update mill-main from 0.12.5 to 0.12.7 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`c92010a`](https://github.com/nightscape/spark-excel/commit/c92010affe2593b3c9a35d0fdbe35649f884cc96) - Update scalafmt-core from 3.8.6 to 3.9.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`aa53d60`](https://github.com/nightscape/spark-excel/commit/aa53d60c9cdb82655de1bf9940d8f3f902240d69) - Update mill-main from 0.12.7 to 0.12.8 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`882719e`](https://github.com/nightscape/spark-excel/commit/882719ed61f9a616929942152b5951b44d2375e4) - Update scalafmt-core from 3.9.0 to 3.9.1 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`523ec93`](https://github.com/nightscape/spark-excel/commit/523ec93ce4ef2ee7bce415f706d6b2eb2859511e) - Build for Spark 3.4.1 as well *(commit by [@nightscape](https://github.com/nightscape))*
+
+
 ## [v0.20.4] - 2024-06-11
 ### :white_check_mark: Tests
 - [`7cdee65`](https://github.dev/mauch/spark-excel/commit/7cdee65d6c5111f7e62673bb44a5fb2cbd7f1622) - Spark 3 uses Log4j2 *(commit by [@nightscape](https://github.com/nightscape))*
@@ -312,3 +336,4 @@ Next
 [v0.20.2]: https://github.dev/mauch/spark-excel/compare/v0.20.1...v0.20.2
 [v0.20.3]: https://github.dev/mauch/spark-excel/compare/v0.20.2...v0.20.3
 [v0.20.4]: https://github.dev/mauch/spark-excel/compare/v0.20.3...v0.20.4
+[v0.30.1]: https://github.com/nightscape/spark-excel/compare/v0.30.0...v0.30.1
