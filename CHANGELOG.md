@@ -2,6 +2,13 @@ Next
 ====
 
 
+## [v0.30.2] - 2025-03-12
+### :wrench: Chores
+- [`da9e98c`](https://github.com/nightscape/spark-excel/commit/da9e98ca68634fdc2b4a9564d29d7218857f4e01) - Update spark-core, spark-hive, spark-sql from 3.5.4 to 3.5.5 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`ab5f308`](https://github.com/nightscape/spark-excel/commit/ab5f308cbb9bda1b1937f42966b22b562b1dfdb8) - Update scalafmt-core from 3.9.1 to 3.9.2 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`c4466bb`](https://github.com/nightscape/spark-excel/commit/c4466bb5febafa8a05f0462cad2d7ab14f768213) - Update scalafmt-core from 3.9.2 to 3.9.3 *(commit by [@scala-steward](https://github.com/scala-steward))*
+
+
 ## [v0.30.1] - 2025-02-26
 ### :wrench: Chores
 - [`2de4598`](https://github.com/nightscape/spark-excel/commit/2de4598eac5767ddf423066849dd8a41dac6bd96) - Update spark-core, spark-hive, spark-sql from 3.5.3 to 3.5.4 *(commit by [@scala-steward](https://github.com/scala-steward))*
@@ -337,3 +344,4 @@ Next
 [v0.20.3]: https://github.dev/mauch/spark-excel/compare/v0.20.2...v0.20.3
 [v0.20.4]: https://github.dev/mauch/spark-excel/compare/v0.20.3...v0.20.4
 [v0.30.1]: https://github.com/nightscape/spark-excel/compare/v0.30.0...v0.30.1
+[v0.30.2]: https://github.com/nightscape/spark-excel/compare/v0.30.1...v0.30.2
