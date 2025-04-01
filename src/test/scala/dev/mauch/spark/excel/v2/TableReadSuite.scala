@@ -18,6 +18,7 @@ package dev.mauch.spark.excel.v2
 
 import dev.mauch.spark.DataFrameSuiteBase
 import org.apache.spark.sql.Row
+import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.types._
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -92,4 +93,80 @@ class TableReadSuite extends AnyFunSuite with DataFrameSuiteBase with ExcelTesti
     val expected = spark.createDataFrame(expectedBigCitiesData, expectedSchema)
     assertDataFrameApproximateEquals(expected, df, 0.1e-3)
   }
+
+  test("read sheet names consisting of digits only (do not interpret given sheet name as number)") {
+    val df = readFromResources(
+      spark,
+      path = "issue_942_sheetname_digits.xlsx",
+      options = Map("dataAddress" -> "'001'!A1", "inferSchema" -> true, "header" -> true, "maxRowsInMemory" -> 1000)
+    )
+
+    assert(df.schema.fields.length == 5) // sheet 001 has 5 columns, sheet 002 has 3 columns
+    assert(df.count() == 1) // sheet 001 has 1 row
+    assert(df.first().getString(0) == "A") // sheet 001 contains "A" as first cell value (001 has "WRONG")
+  }
+
+  for (useStreamingReader <- Seq(true, false)) {
+    test(
+      s"check handling of faulty dimension tags using streaming reader == $useStreamingReader (keepUndefinedRows=false)"
+    ) {
+      val df = readFromResources(
+        spark,
+        path = "issue_944_faulty_dimension.xlsx",
+        options = Map(
+          "dataAddress" -> "'faulty_dim'!A1",
+          "inferSchema" -> true,
+          "header" -> true,
+          "keepUndefinedRows" -> false
+        ) ++ (if (useStreamingReader) Map("maxRowsInMemory" -> "1000") else Map.empty)
+      )
+      assert(df.schema.fields.length == 5) // sheet has 5 columns
+      assert(df.count() == 2) // sheet has 2 defined rows (row 2 and 4)
+      assert(df.first().getString(0) == "A") // sheet  contains "A" as first cell value in first row
+    }
+  }
+
+  test("check handling of faulty dimension tags (keepUndefinedRows=true)") {
+    // note that keepUndefinedRows=true does not work with streaming reader
+    val df = readFromResources(
+      spark,
+      path = "issue_944_faulty_dimension.xlsx",
+      options =
+        Map("dataAddress" -> "'faulty_dim'!A1", "inferSchema" -> true, "header" -> true, "keepUndefinedRows" -> true)
+    )
+    assert(df.schema.fields.length == 5) // sheet 001 has 5 columns, sheet 002 has 3 columns
+    assert(df.count() == 3) // sheet  has row 2 and 4 defined, while row 3 is not defined => 3 rows in total (2,3,4)
+    assert(df.first().getString(0) == "A") // sheet 001 contains "A" as first cell value
+  }
+
+  test("read multiple sheets at once (filename as regex)") {
+    val df = readFromResources(
+      spark,
+      path = "read_multiple_sheets_at_once.xlsx",
+      options =
+        Map("sheetNameIsRegex" -> true, "dataAddress" -> "'sheet_[0-9]'!A1", "inferSchema" -> true, "header" -> true)
+    )
+
+    assert(df.schema.fields.length == 2)
+    assert(df.count() == 5) // sheet_1 has 3 rows, sheet_2 has 2 rows => 5
+    assert(df.filter(col("col_name") === "sheet_1").count() == 3)
+    assert(df.filter(col("col_name") === "sheet_2").count() == 2)
+  }
+
+  test("read multiple sheets at once (filename as regex, excel without header)") {
+    val expectedSchema =
+      StructType(List(StructField("col_name", StringType, true), StructField("col_id", StringType, true)))
+
+    val df = readFromResources(
+      spark,
+      path = "read_multiple_sheets_at_once_noheader.xlsx",
+      options =
+        Map("sheetNameIsRegex" -> true, "dataAddress" -> "'sheet_[0-9]'!A1", "inferSchema" -> false, "header" -> false),
+      schema = expectedSchema
+    )
+    assert(df.count() == 5) // sheet_1 has 3 rows, sheet_2 has 2 rows => 5
+    assert(df.filter(col("col_name") === "sheet_1").count() == 3)
+    assert(df.filter(col("col_name") === "sheet_2").count() == 2)
+  }
+
 }
