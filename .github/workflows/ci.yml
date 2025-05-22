@@ -138,8 +138,7 @@ jobs:
       - name: Publish
         run: |
           export GPG_TTY=$(tty)
-          ./mill -i mill.contrib.sonatypecentral.SonatypeCentralPublishModule/publishAll \
-            --publishArtifacts __.publishArtifacts \
+          ./mill -i mill.scalalib.SonatypeCentralPublishModule/ \
             --username $SONATYPE_USERNAME \
             --password $SONATYPE_PASSWORD \
             --gpgArgs "--passphrase=$PGP_PASSPHRASE,--no-tty,--pinentry-mode,loopback,--batch,--yes,-a,-b" \
