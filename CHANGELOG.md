@@ -2,6 +2,27 @@ Next
 ====
 
 
+## [v0.30.3] - 2025-05-22
+### :bug: Bug Fixes
+- [`6a8a0c8`](https://github.com/nightscape/spark-excel/commit/6a8a0c8503915bf155ef8ab271ed9425054ebf25) - 747: Remove decimal points from integer values when usePlainNumberFormat=true *(PR [#948](https://github.com/nightscape/spark-excel/pull/948) by [@liewkaitsan](https://github.com/liewkaitsan))*
+
+### :white_check_mark: Tests
+- [`c712f90`](https://github.com/nightscape/spark-excel/commit/c712f90f24e09867b1f8de7c1e738576162a2329) - Check predicate filtering *(commit by [@nightscape](https://github.com/nightscape))*
+
+### :wrench: Chores
+- [`494cbca`](https://github.com/nightscape/spark-excel/commit/494cbcaf8da799c8ad649dfdc6c36e82f6332722) - Update scalafmt-core from 3.9.3 to 3.9.4 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`8dc35d1`](https://github.com/nightscape/spark-excel/commit/8dc35d1cf275c0bb2e89ea6a94ed573c48eab280) - Update mill-main from 0.12.8 to 0.12.9 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`3af6e2f`](https://github.com/nightscape/spark-excel/commit/3af6e2f1537fd3e6b049029b9fb6e8cd9cf3f745) - Update poi, poi-ooxml, poi-ooxml-lite from 5.4.0 to 5.4.1 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`6cd9677`](https://github.com/nightscape/spark-excel/commit/6cd96776ddcce8a891dde71396dbd0934dae9315) - Update mill-main from 0.12.9 to 0.12.10 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`17a314b`](https://github.com/nightscape/spark-excel/commit/17a314b6716555c63377c7a5ff4f4c779e1d5d1a) - Update excel-streaming-reader from 5.0.3 to 5.0.4 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`aee54ac`](https://github.com/nightscape/spark-excel/commit/aee54ac40c3cba41c0e92da7912af4a6e0ca06fd) - Update commons-io from 2.18.0 to 2.19.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`6e447df`](https://github.com/nightscape/spark-excel/commit/6e447df6f156bf17bfbd141106baa4695038cc58) - Update commons-collections4 from 4.4 to 4.5.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`ffd5f08`](https://github.com/nightscape/spark-excel/commit/ffd5f0859298df7f25497d1c67ec93b48be14f81) - Update scalafmt-core from 3.9.4 to 3.9.5 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`046ad55`](https://github.com/nightscape/spark-excel/commit/046ad557fda860ee2468658e66ec3073f7e48491) - Update scalafmt-core from 3.9.5 to 3.9.6 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`b00ce8c`](https://github.com/nightscape/spark-excel/commit/b00ce8c78f5280e65a1088c02d18c952cbfcfff2) - Update mill-main from 0.12.10 to 0.12.11 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`9242f42`](https://github.com/nightscape/spark-excel/commit/9242f4239d1d1b5ff8b1d34596ab68b89ceef2da) - Update mill-main from 0.12.11 to 0.12.13 *(commit by [@scala-steward](https://github.com/scala-steward))*
+
+
 ## [v0.30.2] - 2025-03-12
 ### :wrench: Chores
 - [`da9e98c`](https://github.com/nightscape/spark-excel/commit/da9e98ca68634fdc2b4a9564d29d7218857f4e01) - Update spark-core, spark-hive, spark-sql from 3.5.4 to 3.5.5 *(commit by [@scala-steward](https://github.com/scala-steward))*
@@ -345,3 +366,4 @@ Next
 [v0.20.4]: https://github.dev/mauch/spark-excel/compare/v0.20.3...v0.20.4
 [v0.30.1]: https://github.com/nightscape/spark-excel/compare/v0.30.0...v0.30.1
 [v0.30.2]: https://github.com/nightscape/spark-excel/compare/v0.30.1...v0.30.2
+[v0.30.3]: https://github.com/nightscape/spark-excel/compare/v0.30.2...v0.30.3
