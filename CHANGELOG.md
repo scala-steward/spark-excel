@@ -2,6 +2,17 @@ Next
 ====
 
 
+## [v0.32.0] - 2025-08-01
+### :recycle: Refactors
+- [`05ba495`](https://github.com/nightscape/spark-excel/commit/05ba4957c7b0e559da5fe84fc9c55580d682bc82) - Use ifdef instead of different source folders *(commit by [@nightscape](https://github.com/nightscape))*
+
+### :wrench: Chores
+- [`f01c84c`](https://github.com/nightscape/spark-excel/commit/f01c84ced99e20f2ae7ce8446498321ec703e727) - Update excel-streaming-reader from 5.1.0 to 5.1.1 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`5879f5d`](https://github.com/nightscape/spark-excel/commit/5879f5dd4e0e0a48d1ffece6f11f46e1cdd426b4) - Update commons-io from 2.19.0 to 2.20.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`165cb02`](https://github.com/nightscape/spark-excel/commit/165cb02fe2a0ac9b07ed3de55c7d180156c813f6) - Update commons-codec from 1.18.0 to 1.19.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
+- [`09b2606`](https://github.com/nightscape/spark-excel/commit/09b26069b788e6f41ae3f2bcef06228034699385) - Remove Spark 2.4 *(commit by [@nightscape](https://github.com/nightscape))*
+
+
 ## [v0.31.0] - 2025-07-04
 ### :wrench: Chores
 - [`c091cb1`](https://github.com/nightscape/spark-excel/commit/c091cb1155594518bed336660bdb57396155277a) - Update excel-streaming-reader from 5.0.4 to 5.1.0 *(commit by [@scala-steward](https://github.com/scala-steward))*
@@ -377,3 +388,4 @@ Next
 [v0.30.2]: https://github.com/nightscape/spark-excel/compare/v0.30.1...v0.30.2
 [v0.30.3]: https://github.com/nightscape/spark-excel/compare/v0.30.2...v0.30.3
 [v0.31.0]: https://github.com/nightscape/spark-excel/compare/v0.30.4...v0.31.0
+[v0.32.0]: https://github.com/nightscape/spark-excel/compare/v0.31.2...v0.32.0
