@@ -34,7 +34,7 @@ import java.io.{File, FileOutputStream}
 import scala.collection.compat._
 import scala.util.Random
 
-class IntegrationSuite
+abstract class IntegrationSuite(implementation: String)
     extends AnyFunSpec
     with ScalaCheckPropertyChecks
     with DataFrameSuiteBase
@@ -92,7 +92,11 @@ class IntegrationSuite
     ): DataFrame = {
       val theFileName = fileName.getOrElse(File.createTempFile("spark_excel_test_", ".xlsx").getAbsolutePath)
 
-      val writer = df.write.excel(dataAddress = s"'$sheetName'!A1", header = header).mode(saveMode)
+      val writer = df.write
+        .format(implementation)
+        .option("dataAddress", s"'$sheetName'!A1")
+        .option("header", header)
+        .mode(saveMode)
       val configuredWriter =
         Map("dataAddress" -> dataAddress).foldLeft(writer) {
           case (wri, (key, Some(value))) => wri.option(key, value)
@@ -100,7 +104,7 @@ class IntegrationSuite
         }
       configuredWriter.save(theFileName)
 
-      val reader = spark.read.excel(dataAddress = s"'$sheetName'!A1", header = header)
+      val reader = spark.read.format(implementation).option("dataAddress", s"'$sheetName'!A1").option("header", header)
       val configuredReader = Map(
         "maxRowsInMemory" -> maxRowsInMemory,
         "maxByteArraySize" -> maxByteArraySize,
@@ -116,17 +120,17 @@ class IntegrationSuite
     }
 
     def assertEqualAfterInferringTypes(original: DataFrame, inferred: DataFrame): Unit = {
-      val originalWithInferredColumnTypes =
-        original.schema
-          .zip(expectedDataTypes(inferred).map(_._2))
-          .foldLeft(original) { case (df, (field, dataType)) =>
-            df.withColumn(field.name, df(field.name).cast(dataType))
-          }
-      val expected = spark.createDataFrame(originalWithInferredColumnTypes.rdd, inferred.schema)
+      // Cast original columns to match the inferred schema types directly,
+      // avoiding .rdd conversion which causes encoding errors on Spark 4
+      val expected = inferred.schema.foldLeft(original) { case (df, field) =>
+        df.withColumn(field.name, df(field.name).cast(field.dataType))
+      }
       assertDataFrameApproximateEquals(expected, inferred, relTol = 1.0e-5)
     }
 
-    describe(s"with maxRowsInMemory = $maxRowsInMemory; maxByteArraySize = $maxByteArraySize") {
+    describe(
+      s"with implementation = $implementation, maxRowsInMemory = $maxRowsInMemory; maxByteArraySize = $maxByteArraySize"
+    ) {
       it("parses known datatypes correctly") {
         forAll(rowsGen) { rows =>
           val expected = spark.createDataset(rows).toDF()
@@ -260,7 +264,10 @@ class IntegrationSuite
           )
           existingData.convertAsXlsx().write(new FileOutputStream(new File(fileName)))
           val allData = spark.read
-            .excel(dataAddress = s"'$sheetName'!A1", inferSchema = true)
+            .format(implementation)
+            .option("dataAddress", s"'$sheetName'!A1")
+            .option("header", true)
+            .option("inferSchema", true)
             .load(fileName)
           allData.schema.fieldNames should equal(expectedHeaderNames)
           val (headersWithData, headersWithoutData) = expectedHeaderNames.zipWithIndex.partition(_._2 % 2 == 0)
@@ -280,59 +287,62 @@ class IntegrationSuite
         res
       }
 
-      it("writes to and reads from the specified dataAddress, leaving non-overlapping existing data alone") {
-        forAll(dataAndLocationGen.filter(_._1.nonEmpty), sheetGen) {
-          case ((rows, startCellAddress, endCellAddress), existingData) =>
-            val fileName = File.createTempFile("spark_excel_test_", ".xlsx").getAbsolutePath
-            withFileOutputStream(fileName)(existingData.convertAsXlsx().write)
-            val original = spark.createDataset(rows).toDF()
-            val inferred =
-              writeThenRead(
-                original,
-                schema = None,
-                fileName = Some(fileName),
-                saveMode = SaveMode.Append,
-                dataAddress =
-                  Some(s"'$sheetName'!${startCellAddress.formatAsString()}:${endCellAddress.formatAsString()}")
-              )
-
-            assertEqualAfterInferringTypes(original, inferred)
-
-            assertNoDataOverwritten(existingData, fileName, startCellAddress, endCellAddress)
-        }
-      }
-
-      if (maxRowsInMemory.isEmpty) {
-        it("writes to and reads from the specified table, leaving non-overlapping existing data alone") {
+      // V2 (FileDataSourceV2) writes to directories, so append-to-existing-file tests only work with V1
+      if (implementation != "excel") {
+        it("writes to and reads from the specified dataAddress, leaving non-overlapping existing data alone") {
           forAll(dataAndLocationGen.filter(_._1.nonEmpty), sheetGen) {
-            case ((rows, startCellAddress, endCellAddress), sheet) =>
+            case ((rows, startCellAddress, endCellAddress), existingData) =>
               val fileName = File.createTempFile("spark_excel_test_", ".xlsx").getAbsolutePath
-              val tableName = "SomeTable"
-
-              val existingData = sheet.withTables(
-                STable(
-                  cellRange = CellRange(
-                    rowRange = (startCellAddress.getRow, endCellAddress.getRow),
-                    columnRange = (startCellAddress.getCol.toInt, endCellAddress.getCol.toInt)
-                  ),
-                  name = tableName,
-                  displayName = tableName
-                )
-              )
-              val original = spark.createDataset(rows).toDF()
               withFileOutputStream(fileName)(existingData.convertAsXlsx().write)
+              val original = spark.createDataset(rows).toDF()
               val inferred =
                 writeThenRead(
                   original,
                   schema = None,
                   fileName = Some(fileName),
                   saveMode = SaveMode.Append,
-                  dataAddress = Some(s"$tableName[#All]")
+                  dataAddress =
+                    Some(s"'$sheetName'!${startCellAddress.formatAsString()}:${endCellAddress.formatAsString()}")
                 )
 
               assertEqualAfterInferringTypes(original, inferred)
 
               assertNoDataOverwritten(existingData, fileName, startCellAddress, endCellAddress)
+          }
+        }
+
+        if (maxRowsInMemory.isEmpty) {
+          it("writes to and reads from the specified table, leaving non-overlapping existing data alone") {
+            forAll(dataAndLocationGen.filter(_._1.nonEmpty), sheetGen) {
+              case ((rows, startCellAddress, endCellAddress), sheet) =>
+                val fileName = File.createTempFile("spark_excel_test_", ".xlsx").getAbsolutePath
+                val tableName = "SomeTable"
+
+                val existingData = sheet.withTables(
+                  STable(
+                    cellRange = CellRange(
+                      rowRange = (startCellAddress.getRow, endCellAddress.getRow),
+                      columnRange = (startCellAddress.getCol.toInt, endCellAddress.getCol.toInt)
+                    ),
+                    name = tableName,
+                    displayName = tableName
+                  )
+                )
+                val original = spark.createDataset(rows).toDF()
+                withFileOutputStream(fileName)(existingData.convertAsXlsx().write)
+                val inferred =
+                  writeThenRead(
+                    original,
+                    schema = None,
+                    fileName = Some(fileName),
+                    saveMode = SaveMode.Append,
+                    dataAddress = Some(s"$tableName[#All]")
+                  )
+
+                assertEqualAfterInferringTypes(original, inferred)
+
+                assertNoDataOverwritten(existingData, fileName, startCellAddress, endCellAddress)
+            }
           }
         }
       }
@@ -356,7 +366,10 @@ class IntegrationSuite
       )
     })
     val allData = spark.read
-      .excel(dataAddress = s"'$sheetName'!A1", header = false, inferSchema = false)
+      .format(implementation)
+      .option("dataAddress", s"'$sheetName'!A1")
+      .option("header", false)
+      .option("inferSchema", false)
       .load(fileName)
       .collect()
       .map(_.toSeq)
@@ -380,3 +393,6 @@ class IntegrationSuite
   runTests(maxRowsInMemory = Some(1))
   runTests(maxRowsInMemory = Some(1), maxByteArraySize = Some(100000000))
 }
+
+class IntegrationSuiteV1 extends IntegrationSuite("dev.mauch.spark.excel")
+class IntegrationSuiteV2 extends IntegrationSuite("excel")
